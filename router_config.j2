@@ -1,0 +1,12 @@
+hostname {{ hostname }}
+
+{% for intf in interfaces %}
+interface {{ intf.name }}
+  {% if intf.description %}description {{ intf.description }}{% endif %}
+  {% if intf.ip and intf.mask %}ip address {{ intf.ip }} {{ intf.mask }}{% endif %}
+{% endfor %}
+
+router ospf 1
+  {% for intf in interfaces if intf.ip is defined %}
+  network {{ intf.ip }} 0.0.0.0 area 0
+  {% endfor %}
