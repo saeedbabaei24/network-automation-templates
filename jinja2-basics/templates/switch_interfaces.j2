@@ -1,0 +1,14 @@
+
+hostname {{ hostname }}
+
+{%for intf in interfaces %}
+interface {{ intf.name }}
+description {{ intf.desc }}
+switchport mode {{ intf.mode}}
+
+{%if intf.vlan is defined %}
+switchport access vlan {{ intf.vlan }}
+spanning tree portfast
+{% endif %}
+!
+{%endfor%}
